@@ -9,7 +9,7 @@ from django.utils import timezone
 class Event(models.Model):
     moderator = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
-    description = models.CharField(max_length=200)
+    description = models.TextField()
     image_url = models.CharField(max_length=200, blank=True, null=True)
     max_guest_limit = models.IntegerField(null=False, blank=False, default=10)
     date_created = models.DateTimeField(default=timezone.now, blank=False, null=False)
@@ -27,9 +27,5 @@ class Guest(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
-
-
-
-
 
 
