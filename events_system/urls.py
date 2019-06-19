@@ -15,8 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework_jwt.views import ObtainJSONWebToken
+
+from events.serializers import CustomJWTSerializer
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('events.urls'))
+    path("admin/", admin.site.urls),
+    path("", include("events.urls")),
+    path("api-token-auth/", ObtainJSONWebToken.as_view(serializer_class=CustomJWTSerializer)),
 ]

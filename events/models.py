@@ -5,7 +5,7 @@ from django.utils import timezone
 
 
 class Event(models.Model):
-    moderator = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    moderator = models.ForeignKey("auth.User", on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.TextField()
     image_url = models.CharField(max_length=200, blank=True, null=True)
