@@ -4,6 +4,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from rest_framework import generics
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -14,9 +15,11 @@ from events.serializers import EventSerializer, EventGuestsSerializer
 class EventList(generics.ListCreateAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class EventDetail(APIView):
+    permission_classes = (IsAuthenticated,)
     def get(self, request, pk):
         try:
             event = Event.objects.get(id=pk)
@@ -37,22 +40,25 @@ class EventDetail(APIView):
 
 #
 # ALready have this functionality inside ListCreate Api view
-# class EventCreate(APIView):
-#
-#     def post(self, request):
-#         payload = request.data
-#         serializer = EventSerializer(data=payload)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(data=serializer.data, status=201)
-#         else:
-#             return Response(data={"message":"Invalid"}, status=400)
+class EventCreate(APIView):
+
+    def post(self, request):
+        payload = request.data
+        serializer = EventSerializer(data=payload)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data=serializer.data, status=201)
+        else:
+            return Response(data={"message":"Invalid"}, status=400)
 
 
 class AllEventsGuests(generics.ListAPIView):
+    permission_classes = (IsAuthenticated,)
     queryset = Event.objects.all().prefetch_related("guests")
     serializer_class = EventGuestsSerializer
 
 
 class EventGuests(generics.RetrieveAPIView):
-    pass
+    permission_classes = (IsAuthenticated,)
+    queryset = Event.objects.all().prefetch_related("guests")
+    serializer_class = EventGuestsSerializer

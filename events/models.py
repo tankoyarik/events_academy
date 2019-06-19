@@ -18,7 +18,7 @@ class Event(models.Model):
 
 
 class Guest(models.Model):
-    event = models.ManyToManyField("Event", related_name="guests")
+    events = models.ManyToManyField("Event", related_name="guests")
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField()

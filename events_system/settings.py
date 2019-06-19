@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-
+import datetime
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -52,14 +52,17 @@ MIDDLEWARE = [
 ROOT_URLCONF = "events_system.urls"
 
 REST_FRAMEWORK = {
-    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.BasicAuthentication",
     ),
 }
-
+JWT_AUTH = {
+    "JWT_VERIFY_EXPIRATION": False,
+    "JWT_EXPIRATION_DELTA": datetime.timedelta(hours=2),
+}
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
