@@ -16,11 +16,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework_jwt.views import ObtainJSONWebToken
+from rest_framework_swagger.views import get_swagger_view
 
 from events.serializers import CustomJWTSerializer
+from events.views import UserCreateView, UserListView
+
+schema_view = get_swagger_view(title="Events API")
 
 urlpatterns = [
+    path("", schema_view),
     path("admin/", admin.site.urls),
     path("", include("events.urls")),
-    path("api-token-auth/", ObtainJSONWebToken.as_view(serializer_class=CustomJWTSerializer)),
+    path(
+        "api-token-auth/",
+        ObtainJSONWebToken.as_view(serializer_class=CustomJWTSerializer),
+    ),
+    path("users/create", UserCreateView.as_view()),
+    path("users", UserListView.as_view()),
 ]

@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
-from django.http import HttpResponse
-from django.shortcuts import render
+
 
 # Create your views here.
 from rest_framework import generics
@@ -9,7 +8,13 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from events.models import Event, Guest
-from events.serializers import EventSerializer, EventGuestsSerializer
+from events.serializers import (
+    EventSerializer,
+    EventGuestsSerializer,
+    GuestSerializer,
+    GuestSerializerEvents,
+    UserSerializer,
+)
 
 
 class EventList(generics.ListCreateAPIView):
@@ -20,6 +25,7 @@ class EventList(generics.ListCreateAPIView):
 
 class EventDetail(APIView):
     permission_classes = (IsAuthenticated,)
+
     def get(self, request, pk):
         try:
             event = Event.objects.get(id=pk)
@@ -41,6 +47,7 @@ class EventDetail(APIView):
 #
 # ALready have this functionality inside ListCreate Api view
 class EventCreate(APIView):
+    permission_classes = (IsAuthenticated,)
 
     def post(self, request):
         payload = request.data
@@ -49,7 +56,7 @@ class EventCreate(APIView):
             serializer.save()
             return Response(data=serializer.data, status=201)
         else:
-            return Response(data={"message":"Invalid"}, status=400)
+            return Response(data={"message": "Invalid"}, status=400)
 
 
 class AllEventsGuests(generics.ListAPIView):
@@ -62,3 +69,27 @@ class EventGuests(generics.RetrieveAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Event.objects.all().prefetch_related("guests")
     serializer_class = EventGuestsSerializer
+
+
+class GuestsListView(generics.ListCreateAPIView):
+    permission_classes = (IsAuthenticated,)
+    queryset = Guest.objects.all()
+    serializer_class = GuestSerializer
+
+
+class GuestDetailView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticated,)
+    queryset = Guest.objects.all()
+    serializer_class = GuestSerializer
+
+
+class UserCreateView(generics.CreateAPIView):
+    permission_classes = (AllowAny,)
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserListView(generics.ListAPIView):
+    permission_classes = (IsAuthenticated,)
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
