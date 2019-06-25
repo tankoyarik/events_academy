@@ -22,8 +22,8 @@ services:
       DJANGO_ENV: docker
     entrypoint: ./entrypoint.sh
     depends_on:
-      - postgres
-  postgres:
+      - db
+  db:
     image: postgres
     environment:
       POSTGRES_DB: events_docker
