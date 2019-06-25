@@ -38,3 +38,6 @@ static/
 rabbitmq/
 postgres/
 celerybeat.pid
+.vscode
+.history
+

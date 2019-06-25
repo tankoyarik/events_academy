@@ -3,3 +3,7 @@ venv
 /venv
 __pycache__
 .env
+/postgres
+.vscode
+.history
+postgres
