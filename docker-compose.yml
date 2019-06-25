@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: events_nginx
+    ports:
+      - 8001:8001
+    volumes:
+      - .:/code
+      - ./etc/nginx:/etc/nginx/conf.d
+    depends_on:
+      - backend
+  backend:
+    build: .
+    container_name: events_backend
+    volumes:
+      - .:/events_system
+    expose:
+      - "8001"
+    environment:
+      DJANGO_ENV: docker
+    entrypoint: ./entrypoint.sh
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: events_docker
+      POSTGRES_USER: events_user_docker
+      POSTGRES_PASSWORD: asdfasdf
+    volumes:
+      - ./postgres/data:/var/lib/postgresql
+    expose:
+      - "5432"
