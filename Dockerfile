@@ -5,11 +5,6 @@ FROM python:3.6
 # The enviroment variable ensures that the python output is set straight
 # to the terminal with out buffering it first
 ENV PYTHONUNBUFFERED 1
-RUN apt-get update &&\
-    apt-get install -y &&\
-    apt-get install -y supervisor &&\
-    apt-get install -y binutils libproj-dev gdal-bin &&\
-    apt-get install netcat -y
 
 # create root directory for our project in the container
 RUN mkdir /events_system
