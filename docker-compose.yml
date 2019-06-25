@@ -10,8 +10,8 @@ services:
       - .:/code
       - ./etc/nginx:/etc/nginx/conf.d
     depends_on:
-      - backend
-  backend:
+      - web
+  web:
     build: .
     container_name: events_backend
     volumes:
