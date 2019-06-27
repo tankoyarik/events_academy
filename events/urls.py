@@ -1,6 +1,4 @@
-from django.contrib.auth.models import User
-from django.http import HttpResponse
-from django.urls import path, include
+from django.urls import path
 
 from events.views import (
     EventList,
@@ -9,11 +7,13 @@ from events.views import (
     EventGuests,
     GuestsListView,
     GuestDetailView,
+    EventCreate,
 )
 
 
 urlpatterns = [
     path("events", EventList.as_view()),
+    path("events/create", EventCreate.as_view()),
     path("events/<int:pk>", EventDetail.as_view()),
     path("events/guests", AllEventsGuests.as_view()),
     path("events/<int:pk>/guests", EventGuests.as_view()),

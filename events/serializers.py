@@ -17,7 +17,23 @@ jwt_decode_handler = api_settings.JWT_DECODE_HANDLER
 jwt_get_username_from_payload = api_settings.JWT_PAYLOAD_GET_USERNAME_HANDLER
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("id", "username", "email")
+
+
+class EventSerializerCreate(serializers.ModelSerializer):
+    moderator = UserSerializer(required=False)
+
+    class Meta:
+        model = Event
+        fields = "__all__"
+
+
 class EventSerializer(serializers.ModelSerializer):
+    moderator = UserSerializer()
+
     class Meta:
         model = Event
         fields = "__all__"
@@ -30,14 +46,16 @@ class GuestSerializerEvents(serializers.ModelSerializer):
 
 
 class GuestSerializer(serializers.ModelSerializer):
+    guest_id = serializers.ReadOnlyField()
+
     class Meta:
         model = Guest
-        # fields ="__all__"
-        exclude = ("events",)
+        fields = "__all__"
 
 
 class EventGuestsSerializer(serializers.ModelSerializer):
     guests = GuestSerializer(many=True)
+    moderator = serializers.ReadOnlyField()
 
     class Meta:
         model = Event

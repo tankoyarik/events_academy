@@ -11,13 +11,23 @@ from events.serializers import (
     EventGuestsSerializer,
     GuestSerializer,
     UserSerializer,
+    EventSerializerCreate,
 )
 
 
-class EventList(generics.ListCreateAPIView):
+class EventList(generics.ListAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     permission_classes = (IsAuthenticated,)
+
+
+class EventCreate(generics.CreateAPIView):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializerCreate
+    permission_classes = (IsAuthenticated,)
+
+    def perform_create(self, serializer):
+        serializer.save(moderator=self.request.user)
 
 
 class EventDetail(generics.RetrieveUpdateDestroyAPIView):

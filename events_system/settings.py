@@ -144,7 +144,7 @@ SWAGGER_SETTINGS = {
     },
     "LOGIN_URL": "/admin/login/?next=/admin/",
     "LOGOUT_URL": "/admin/logout/",
-    "JSON_EDITOR": False,
+    "JSON_EDITOR": True,
 }
 
 
