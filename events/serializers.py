@@ -24,11 +24,11 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class EventSerializerCreate(serializers.ModelSerializer):
-    moderator = UserSerializer(required=False)
+    # moderator = UserSerializer(required=False)
 
     class Meta:
         model = Event
-        fields = "__all__"
+        exclude = ("moderator",)
 
 
 class EventSerializer(serializers.ModelSerializer):
