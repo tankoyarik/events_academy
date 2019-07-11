@@ -16,8 +16,8 @@ services:
     container_name: events_backend
     volumes:
       - .:/events_system
-    ports:
-      - 8001:8001
+    expose:
+      - "8001"
     environment:
       DJANGO_ENV: docker
     entrypoint: ./entrypoint.sh
