@@ -1,16 +1,16 @@
 version: '3'
 
 services:
-#  nginx:
-#    image: nginx:latest
-#    container_name: events_nginx
-#    ports:
-#      - 8001:8001
-#    volumes:
-#      - .:/code
-#      - ./etc/nginx:/etc/nginx/conf.d
-#    depends_on:
-#      - web
+  nginx:
+    image: nginx:latest
+    container_name: events_nginx
+    ports:
+      - 8001:8001
+    volumes:
+      - .:/code
+      - ./etc/nginx:/etc/nginx/conf.d
+    depends_on:
+      - web
   web:
     build: .
     container_name: events_backend
